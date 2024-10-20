@@ -3,21 +3,25 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using Microsoft.CodeAnalysis;
-using ReactiveUI.SourceGenerators.Helpers;
+using System.Collections.Generic;
 
-namespace ReactiveUI.SourceGenerators.ObservableAsProperty.Models
-{
-    internal record ObservableMethodInfo(
-    string MethodName,
-    ITypeSymbol MethodReturnType,
-    ITypeSymbol? ArgumentType,
-    string PropertyName,
+namespace ReactiveUI.SourceGenerators.ObservableAsProperty.Models;
+
+internal record ObservableMethodInfo(
+    string TargetName,
+    string TargetNamespace,
+    string TargetNamespaceWithNamespace,
+    string TargetVisibility,
+    string TargetType,
+    string? MethodName,
+    string? MethodReturnTypeName,
+    string? MethodReturnTypeNameWithNamespace,
+    string? MethodReturnTypeNamespace,
+    bool IsMethodReturnObservableReturnType,
+    string? ArgumentTypeName,
+    string? ArgumentTypeNameWithNamespace,
+    string? ArgumentTypeNamespace,
+    bool IsArgumentTypeObservableReturnType,
+    string? PropertyName,
     bool IsProperty,
-    EquatableArray<AttributeInfo> ForwardedPropertyAttributes)
-    {
-        public string GetObservableTypeText() => MethodReturnType is not INamedTypeSymbol typeSymbol
-                ? string.Empty
-                : typeSymbol.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-    }
-}
+    ObservableForwardAttributes ForwardedPropertyAttributes);
