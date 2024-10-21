@@ -14,7 +14,7 @@ namespace ReactiveUI.SourceGenerators;
 /// <summary>
 /// Generates properties from observable methods.
 /// </summary>
-public sealed partial class ObservableAsPropertyFromObservableGenerator
+public sealed partial class ObservableAsPropertyGenerator
 {
     /// <summary>
     /// Generates the source code.

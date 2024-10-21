@@ -8,6 +8,7 @@ using System.Collections.Generic;
 namespace ReactiveUI.SourceGenerators.ObservableAsProperty.Models;
 
 internal record ObservableMethodInfo(
+    string FileHintName,
     string TargetName,
     string TargetNamespace,
     string TargetNamespaceWithNamespace,

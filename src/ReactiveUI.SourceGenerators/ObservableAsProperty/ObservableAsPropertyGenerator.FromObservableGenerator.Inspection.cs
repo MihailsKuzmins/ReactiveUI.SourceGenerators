@@ -21,7 +21,7 @@ namespace ReactiveUI.SourceGenerators;
 /// <summary>
 /// Inspects the elements.
 /// </summary>
-public sealed partial class ObservableAsPropertyFromObservableGenerator
+public sealed partial class ObservableAsPropertyGenerator
 {
     /// <summary>
     /// Gets the observable method information.
@@ -49,6 +49,12 @@ public sealed partial class ObservableAsPropertyFromObservableGenerator
             return null;
         }
 
+        attributeData.TryGetNamedArgument("PropertyName", out string? propertyName);
+        if (string.IsNullOrWhiteSpace(propertyName) && propertySymbol is not null)
+        {
+            propertyName = methodSymbol?.Name ?? propertySymbol?.Name;
+        }
+
         var namedTypeSymbol = methodSymbol?.ContainingType ?? propertySymbol?.ContainingType;
 
         if (namedTypeSymbol is null)
@@ -69,9 +75,9 @@ public sealed partial class ObservableAsPropertyFromObservableGenerator
         var argumentTypeNamespace = argumentType?.ContainingNamespace?.ToDisplayString(SymbolHelpers.DefaultDisplay);
         var isArgumentTypeObservableReturnType = IsObservableReturnType(argumentType);
 
-        var propertyName = methodSymbol?.Name ?? propertySymbol?.Name;
         var isProperty = propertySymbol is not null;
 
+        var targetHintName = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
         var targetName = namedTypeSymbol.Name;
         var targetNamespace = namedTypeSymbol.ContainingNamespace.ToDisplayString(SymbolHelpers.DefaultDisplay);
         var targetNameWithNamespace = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
@@ -99,6 +105,7 @@ public sealed partial class ObservableAsPropertyFromObservableGenerator
         var forwardedAttributes = new ObservableForwardAttributes(fieldAttributes, propertyAttributes);
 
         return new ObservableMethodInfo(
+            targetHintName,
             targetName,
             targetNamespace,
             targetNameWithNamespace,
